@@ -1,16 +1,5 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CatCollector</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-</head>
-<body>
-    <h1>All of the CatCollector's Cats:</h1>
-    <hr />
+{% extends 'base.html' %}
+{% block content %}
     {% for cat in cats %}
         <a href="/cats/{{ cat.id }}/">
             <p>Name: {{ cat.name }}</p>
@@ -22,6 +11,4 @@
         </a>
         <hr />
     {% endfor %}
-    <footer>All rights reserved, catcollector 2019</footer>
-</body>
-</html>
+{% endblock %}
