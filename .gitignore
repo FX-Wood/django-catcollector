@@ -1,0 +1,7 @@
+lib
+bin
+lib64
+__pycache__
+share
+db.sqlite3
+settings.py
