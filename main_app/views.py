@@ -99,8 +99,13 @@ def login_view(request):
                     print('The account has been disabled')
             
                 print('username or password are incorrect')
-            else:
-                form = LoginForm()
-                return render(request, 'login.html', {'form', form})
+    
+    # if method is not POST
     else:
         # send user the form
+        form = LoginForm()
+        return render(request, 'login.html', {'form', form})
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
