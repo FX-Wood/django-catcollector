@@ -1,4 +1,4 @@
-import django import forms
+from django import forms
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="User Name", max_length=64)
