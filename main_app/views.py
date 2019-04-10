@@ -22,7 +22,12 @@ def cats_show(request, cat_id):
 class CatCreate(CreateView):
     model = Cat
     fields = '__all__'
-    success_url = '/cats'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=false)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect('/cats')
 
 class CatUpdate(UpdateView):
     model = Cat
