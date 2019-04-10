@@ -4,7 +4,9 @@
     <h1>Cat Toy Index</h1>
     <hr />
     {% for toy in cattoys %}
-        <h3>{{ toy.name }}</h3>
+        <a href="/cattoys/{{ toy.id }}">
+            <h3>{{ toy.name }}</h3>
+        </a>
         <p>Color: {{ toy.color }}</p>
         <hr />
     {% endfor %}
