@@ -3,6 +3,8 @@ from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Cat, CatToy
 from django.contrib.auth.models import User
+from .forms import LoginForm
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def index(request):
@@ -77,3 +79,28 @@ def cattoys_show(request, cattoy_id):
     cattoy = CatToy.objects.get(id=cattoy_id)
     return render(request, 'cattoys/show.html', {'toy': cattoy})
 
+def login_view(request):
+    if request.method == 'POST':
+        # Authenticate the user
+        # parse post body with form
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            u = form.cleaned_data['username']
+            p = form.cleaned_data['password']
+            user = authenticate(username=u, password=p)
+            # if authentication fails, user will be None
+            if not user:
+                # django allows for deactivating users, 
+                # which leaves their record intact but disables login
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect('/')
+                else:
+                    print('The account has been disabled')
+            
+                print('username or password are incorrect')
+            else:
+                form = LoginForm()
+                return render(request, 'login.html', {'form', form})
+    else:
+        # send user the form
