@@ -54,4 +54,25 @@ class CatToyCreate(CreateView):
     fields = '__all__'
     success_url = '/cattoys'
 
-class CatToyUpdate
+class CatToyUpdate(UpdateView):
+    model = CatToy
+    fields = ['name', 'color']
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        # we are gonna add some stuff here
+        self.object.save()
+        return HttpResponseRedirect(f"/cats/{str(self.object.pk)}")
+
+class CatToyDelete(DeleteView):
+    model = CatToy
+    success_url = '/cattoys'
+
+def cattoys_index(request):
+    cattoys = CatToy.objects.all()
+    return render(request, 'cattoys/index.html', {'cattoys': cattoys})
+
+def cattoys_show(request, cattoy_id):
+    cattoy = CatToy.objects.get(id=cattoy_id)
+    return render(request, 'cattoys/show.html', {'cattoy': cattoy})
+
