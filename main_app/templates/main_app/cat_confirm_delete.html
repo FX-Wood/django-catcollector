@@ -5,6 +5,7 @@
     <p>Are you sure you want to delete this cat: {{ cat }}?</p>
     <form action="" method="POST">
         {% csrf_token %}
-        <input type="submit" value="Word!">
+        <input class="btn-primary ok" type="submit" value="Word!">
+        <button class="btn-primary cancel">  <a href="{ url 'cats_show' cat.id }">Cancel</a></button>
     </form>
 {% endblock %}
