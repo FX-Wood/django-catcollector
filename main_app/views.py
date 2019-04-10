@@ -5,6 +5,7 @@ from .models import Cat, CatToy
 from django.contrib.auth.models import User
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def index(request):
@@ -109,3 +110,14 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+def signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return HttpResponseRedirect(f"/user/{user.username}/")
+    else:
+        form = UserCreationForm()
+        return render(request, 'signup.html', {'form', form})
