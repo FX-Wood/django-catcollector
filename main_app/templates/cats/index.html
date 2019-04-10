@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+    <h1>Cat index</h1>
+    <a href="/cats/create">Add a new cat</a>
+    <hr />
     {% for cat in cats %}
         <a href="/cats/{{ cat.id }}/">
             <p>Name: {{ cat.name }}</p>
