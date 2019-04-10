@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Cat Toy Index</h1>
+    <hr />
+    {% for toy in cattoys %}
+        <h3>{{ toy.name }}</h3>
+        <p>Color: {{ toy.color }}</p>
+        <hr />
+    {% endfor %}
+{% endblock %}
