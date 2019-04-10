@@ -6,6 +6,6 @@
     <form action="" method="POST">
         {% csrf_token %}
         <input type="submit" value="Affirmative!">
-        <button class="btn-primary cancel">  <a href="{ url 'cattoys_show' cattoy.id }">Cancel</a></button>
+        <button class="btn-primary cancel">  <a href="{% url 'cattoys_show' cattoy.id %}">Cancel</a></button>
     </form>
 {% endblock %}

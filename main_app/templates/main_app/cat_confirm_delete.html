@@ -6,6 +6,6 @@
     <form action="" method="POST">
         {% csrf_token %}
         <input class="btn-primary ok" type="submit" value="Word!">
-        <button class="btn-primary cancel">  <a href="{ url 'cats_show' cat.id }">Cancel</a></button>
+        <button class="btn-primary cancel">  <a href="{% url 'cats_show' cat.id %}">Cancel</a></button>
     </form>
 {% endblock %}
