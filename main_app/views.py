@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Cat
+from .models import Cat, CatToy
+from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
@@ -24,7 +25,7 @@ class CatCreate(CreateView):
     fields = '__all__'
 
     def form_valid(self, form):
-        self.object = form.save(commit=false)
+        self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
         return HttpResponseRedirect('/cats')
@@ -42,3 +43,15 @@ class CatUpdate(UpdateView):
 class CatDelete(DeleteView):
     model = Cat
     success_url = '/cats'
+
+def profile(request, username):
+    user = User.objects.get(username=username)
+    cats = Cat.objects.filter(user=user)
+    return render(request, 'profile.html', {'username': username, 'cats': cats})
+
+class CatToyCreate(CreateView):
+    model = CatToy
+    fields = '__all__'
+    success_url = '/cattoys'
+
+class CatToyUpdate
