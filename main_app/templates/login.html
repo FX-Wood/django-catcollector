@@ -5,5 +5,6 @@
     <form method="POST" action='.'>
         {% csrf_token %}
         {{ form.as_p }}
+        <input class="btn-primary login" type="submit" value="Login!">
     </form>
 {% endblock %}

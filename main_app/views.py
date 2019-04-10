@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 def index(request):
@@ -44,10 +46,12 @@ class CatUpdate(UpdateView):
         form.save()
         return HttpResponseRedirect(f"/cats/{str(self.object.pk)}")
 
+@method_decorator(login_required, name='dispatch')
 class CatDelete(DeleteView):
     model = Cat
     success_url = '/cats'
 
+@login_required
 def profile(request, username):
     user = User.objects.get(username=username)
     cats = Cat.objects.filter(user=user)
@@ -90,7 +94,7 @@ def login_view(request):
             p = form.cleaned_data['password']
             user = authenticate(username=u, password=p)
             # if authentication fails, user will be None
-            if not user:
+            if user:
                 # django allows for deactivating users, 
                 # which leaves their record intact but disables login
                 if user.is_active:
@@ -98,14 +102,17 @@ def login_view(request):
                     return HttpResponseRedirect('/')
                 else:
                     print('The account has been disabled')
-            
+                    return HttpResponseRedirect('/login')
                 print('username or password are incorrect')
-    
+                return HttpResponseRedirect('/login')
+        else:
+            print('form not valid')
+            return HttpResponseRedirect('/login')
     # if method is not POST
     else:
         # send user the form
         form = LoginForm()
-        return render(request, 'login.html', {'form', form})
+        return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
@@ -120,4 +127,4 @@ def signup(request):
             return HttpResponseRedirect(f"/user/{user.username}/")
     else:
         form = UserCreationForm()
-        return render(request, 'signup.html', {'form', form})
+        return render(request, 'signup.html', {'form': form})
