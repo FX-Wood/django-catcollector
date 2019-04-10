@@ -5,4 +5,9 @@
     <hr />
     <h3>{{ toy.name }}</h3>
     <p>Color: {{ toy.color }}</p>
+    {% for cat in toy.cat_set.all %}
+        <a href="/cats/{{ cat.id }}" >{{ cat.name }}</a><br />
+    {% empty %}
+        <p>Nobody owns this toy</p>
+    {% endfor %}
 {% endblock %}

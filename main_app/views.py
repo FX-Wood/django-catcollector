@@ -28,16 +28,17 @@ class CatCreate(CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
+        form.save_m2m()
         return HttpResponseRedirect('/cats')
 
 class CatUpdate(UpdateView):
     model = Cat
     fields = ['name', 'breed', 'description', 'age', 'cattoys']
-
     def form_valid(self, form):
-        self.object = form.save(commit=False)
+        # self.object = form.save(commit=False)
+        # print(form.cattoys)
         # we are gonna add some stuff here
-        self.object.save()
+        form.save()
         return HttpResponseRedirect(f"/cats/{str(self.object.pk)}")
 
 class CatDelete(DeleteView):

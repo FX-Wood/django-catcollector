@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Name: {{ cat.name }}</h2>
-    <img src="http://placekitten.com/200/300{{ value|date: 'U' }}" alt="{{ cat.name }} looking cute">
+    <img src="http://placekitten.com/200/300/?time={% now 'U' %}" alt="{{ cat.name }} looking cute">
     <p>Breed: {{ cat.breed }}</p>
     <p>Description: {{ cat.description }}</p>
     <p>Age: {{ cat.age }}</p>
+    {% for toy in cat.cattoys.all %}
+        <p>{{ toy.name }}, Color: {{ toy.color }}</p>
+    {% empty %}
+        <p>Cat has no toys :(</p>
+    {% endfor %}
     <button style="padding: 1em 2em;"><a href="{% url 'cats_update' cat.id %}" style="text-decoration: none; color: black;">Update this cat</a></button>
     <button style="padding: 1em 2em;"><a href="{% url 'cats_delete' cat.id %}" style="text-decoration: none; color: black">Delete this cat</a></button>
 {% endblock %}
