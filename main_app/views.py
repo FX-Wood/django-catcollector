@@ -74,5 +74,5 @@ def cattoys_index(request):
 
 def cattoys_show(request, cattoy_id):
     cattoy = CatToy.objects.get(id=cattoy_id)
-    return render(request, 'cattoys/show.html', {'cattoy': cattoy})
+    return render(request, 'cattoys/show.html', {'toy': cattoy})
 
