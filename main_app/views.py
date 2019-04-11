@@ -53,9 +53,10 @@ class CatDelete(DeleteView):
 
 @login_required
 def profile(request, username):
+    own_profile = request.user.username == username
     user = User.objects.get(username=username)
     cats = Cat.objects.filter(user=user)
-    return render(request, 'profile.html', {'username': username, 'cats': cats})
+    return render(request, 'profile.html', {'username': username, 'cats': cats, 'own_profile': own_profile})
 
 class CatToyCreate(CreateView):
     model = CatToy
